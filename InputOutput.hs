@@ -25,6 +25,20 @@ showPiecePretty (Queen, White) = " ♛ "
 showPiecePretty (King, White) = " ♚ "
 showPiecePretty (Pawn, White) = " ♟ "
 
+-- IN CASE OF LIGHT MODE UI
+-- showPiecePretty (Rook, White) = " ♖ "
+-- showPiecePretty (Knight, White) = " ♘ "
+-- showPiecePretty (Bishop, White) = " ♗ "
+-- showPiecePretty (Queen, White) = " ♕ "
+-- showPiecePretty (King, White) = " ♔ "
+-- showPiecePretty (Pawn, White) = " ♙ "
+-- showPiecePretty (Rook, Black) = " ♜ "
+-- showPiecePretty (Knight, Black) = " ♞ "
+-- showPiecePretty (Bishop, Black) = " ♝ "
+-- showPiecePretty (Queen, Black) = " ♛ "
+-- showPiecePretty (King, Black) = " ♚ "
+-- showPiecePretty (Pawn, Black) = " ♟ "
+
 -- Returns a string of the piece symbol at the given location on the board
 lookupPiece :: Pos -> Board -> String
 lookupPiece pos board = case lookup pos board of
@@ -40,10 +54,14 @@ showRow y Black board = concat $ [show y, "  "] ++ intersperse "|" [lookupPiece 
 -- Converts a game to a pretty output String for printing
 showPrettyGame :: Game -> String
 showPrettyGame (board, side, turn) =
-  let rows = [showRow y White board | y <- [8, 7 .. 1]]
-      separator = "   " ++ replicate (31) '-'
-      coordinateLine = intercalate "   " ["", "a", "b", "c", "d", "e", "f", "g", "h"]
-      prettyBoard = unlines (intersperse separator rows) ++ "\n " ++ coordinateLine
+  let
+  -- initially showRow y White board
+    rowRange :: [Int]
+    rowRange = if side == White then [8, 7 .. 1] else [1 .. 8]
+    rows = [showRow y side board | y <- rowRange]
+    separator = "   " ++ replicate (31) '-'
+    coordinateLine = intercalate "   " ["", "a", "b", "c", "d", "e", "f", "g", "h"]
+    prettyBoard = unlines (intersperse separator rows) ++ "\n " ++ coordinateLine
    in "Current side: " ++ (show side) ++ "\n" ++ "Number of turns left: " ++ (show turn) ++ "\n" ++ prettyBoard
 
 intToLetter :: Int -> String
