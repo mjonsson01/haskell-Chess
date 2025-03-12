@@ -1,4 +1,4 @@
-W 50
+W 200
 r n b q k b n r
 p p p p p p p p
 _ _ _ _ _ _ _ _
